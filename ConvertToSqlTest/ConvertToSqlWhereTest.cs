@@ -31,18 +31,6 @@ namespace ConvertToSqlTest
             Assert.AreEqual(expected, actual);
         }
 
-        //[TestMethod]
-        //public void ToWhere_equals_string_not_replace_string()
-        //{
-        //    var target = new ConvertToSql();
-        //    var input = "comment:equals(\"age:equals(20)\")";
-        //    var expected = "where comment = 'age:equals(20)'";
-
-        //    var actual = target.ToWhere(input);
-
-        //    Assert.AreEqual(expected, actual);
-        //}
-
         [TestMethod]
         public void ToWhere_not_equals_number()
         {
@@ -277,6 +265,18 @@ namespace ConvertToSqlTest
             var target = new ConvertToSql();
             var input = "or(and(age:equals(20),not(name:equals(\"Tom\"))),id:equals(32))";
             var expected = "where ((age = 20 and name <> 'Tom') or id = 32)";
+
+            var actual = target.ToWhere(input);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void ToWhere_and_and_and_equal()
+        {
+            var target = new ConvertToSql();
+            var input = "and(and(age:equals(20),name:equals(\"Tom\")),or(name:equals(\"Tom\"),age:equals(20)))";
+            var expected = "where ((age = 20 and name = 'Tom') and (name = 'Tom' or age = 20))";
 
             var actual = target.ToWhere(input);
 
