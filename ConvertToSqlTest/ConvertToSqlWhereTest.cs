@@ -127,17 +127,17 @@ namespace ConvertToSqlTest
             Assert.AreEqual(expected, actual);
         }
 
-        //[TestMethod]
-        //public void ToWhere_and_not_equal_string_number()
-        //{
-        //    var target = new ConvertToSql();
-        //    var input = "and(name:equals(\"Tom\"),age:equals(20))";
-        //    var expected = "where (name <> 'Tom' and age <> 20)";
+        [TestMethod]
+        public void ToWhere_and_not_equal_string_number()
+        {
+            var target = new ConvertToSql();
+            var input = "and(not(name:equals(\"Tom\")),not(age:equals(20)))";
+            var expected = "where (name <> 'Tom' and age <> 20)";
 
-        //    var actual = target.ToWhere(input);
+            var actual = target.ToWhere(input);
 
-        //    Assert.AreEqual(expected, actual);
-        //}
+            Assert.AreEqual(expected, actual);
+        }
 
         //[TestMethod]
         //public void ToWhere_or_not_equal_number_string()
