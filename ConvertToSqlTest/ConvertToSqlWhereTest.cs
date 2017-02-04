@@ -66,6 +66,21 @@ namespace ConvertToSqlTest
 
             Assert.AreEqual(expected, actual);
         }
+
+        [TestMethod]
+        public void ToWhere_and_equal_number_string()
+        {
+            var target = new ConvertToSql();
+            var input = "and(age:equals(20),name:equals(\"Tom\"))";
+            var expected = "where (age = 20 and name = 'Tom')";
+
+            var actual = target.ToWhere(input);
+
+            Assert.AreEqual(expected, actual);
+        }
+
         
+
+
     }
 }
