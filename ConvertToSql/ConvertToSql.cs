@@ -13,7 +13,8 @@ namespace ConvertToSqlLibrary
         {
             Dictionary<string,string> regexPatterns = new Dictionary<string, string>{
                 { @"(\w+):equals\((\d*?)\)"         , "$1 = $2"   },
-                { @"(\w+):equals\(\""(.+?)\""\)"    , "$1 = '$2'" }
+                { @"(\w+):equals\(\""(.+?)\""\)"    , "$1 = '$2'" },
+                { @"not\((\w*):equals\((.+?)\)\)"     , "$1 <> $2"  }
                 };
             var result = "where ";
 
