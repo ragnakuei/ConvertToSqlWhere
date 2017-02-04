@@ -259,5 +259,17 @@ namespace ConvertToSqlTest
             Assert.AreEqual(expected, actual);
         }
 
+        [TestMethod]
+        public void ToWhere_and_not_equal_or()
+        {
+            var target = new ConvertToSql();
+            var input = "and(not(id:equals(32)),or(age:equals(20),name:equals(\"Tom\")))";
+            var expected = "where (id <> 32 and (age = 20 or name = 'Tom'))";
+
+            var actual = target.ToWhere(input);
+
+            Assert.AreEqual(expected, actual);
+        }
+
     }
 }
