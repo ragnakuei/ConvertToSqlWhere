@@ -9,20 +9,21 @@ namespace ConvertToSqlLibrary
 {
     public class ConvertToSql
     {
-        private Dictionary<string, string> regexPatterns = new Dictionary<string, string>{
-                { @"not\((\w+):equals\(\""(.+?)\""\)\)" , "$1 <> '$2'" },
-                { @"not\((\w*):equals\((\d+?)\)\)"   , "$1 <> $2"   },
-                { @"(\w+):equals\((\d*?)\)"    , "$1 = $2"    },
-                { @"(\w+):equals\(\""(.+?)\""\)"    , "$1 = '$2'"  },
-                { @"^(and|or)\((.+?),(.+?)\)$","($2 $1 $3)" },
+        private List<RegexStore> regexStores = new List<RegexStore>{
+              new RegexStore { Pattern = @"not\((\w+):equals\(\""(.+?)\""\)\)"  , Replace = "$1 <> '$2'" },
+              new RegexStore { Pattern = @"not\((\w*):equals\((\d+?)\)\)"  , Replace = "$1 <> $2" },
+              new RegexStore { Pattern = @"(\w+):equals\(\""(.+?)\""\)"  , Replace = "$1 = '$2'" },
+              new RegexStore { Pattern = @"(\w+):equals\((\d*?)\)"  , Replace = "$1 = $2" },
+              new RegexStore { Pattern = @"(and|or)\((?!and|or)(.*?),(.*?)\)"  , Replace = "($2 $1 $3)" },
+              new RegexStore { Pattern = @"^(and|or)\((.+?),(.+?)\)$"  , Replace = "$2 $1 $3" },
          };
 
         public string ToWhere(string input)
         {
-            foreach (var regexPattern in regexPatterns)
+            for (int i = 0; i <= 3; i++)
             {
-                var pattern = regexPattern.Key;
-                var replace = regexPattern.Value;
+                var pattern = regexStores[i].Pattern;
+                var replace = regexStores[i].Replace;
 
                 var match = Regex.Match(input, pattern);
                 if (match.Success)
@@ -31,7 +32,16 @@ namespace ConvertToSqlLibrary
                 }
             }
 
-            return "where "+ input;
+            var patternAndOr = regexStores[4].Pattern;
+            var replaceAndOr = regexStores[4].Replace;
+            var matchAndOr = Regex.Match(input, patternAndOr);
+            while (matchAndOr.Success)
+            {
+                input = Regex.Replace(input, patternAndOr, replaceAndOr);
+                matchAndOr = Regex.Match(input, patternAndOr);
+            }
+
+            return "where " + input;
         }
     }
 }
