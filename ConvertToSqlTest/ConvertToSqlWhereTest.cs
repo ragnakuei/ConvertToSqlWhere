@@ -30,5 +30,19 @@ namespace ConvertToSqlTest
 
             Assert.AreEqual(expected, actual);
         }
+
+        [TestMethod]
+        public void ToWhere_equals_string_not_replace_string()
+        {
+            var target = new ConvertToSql();
+            var input = "comment:equals(\"age:equals(20)\")";
+            var expected = "where comment = 'age:equals(20)'";
+
+            var actual = target.ToWhere(input);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        
     }
 }
