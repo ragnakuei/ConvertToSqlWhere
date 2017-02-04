@@ -272,11 +272,23 @@ namespace ConvertToSqlTest
         }
 
         [TestMethod]
-        public void ToWhere_and_and_and_equal()
+        public void ToWhere_and_and_or_equal()
         {
             var target = new ConvertToSql();
             var input = "and(and(age:equals(20),name:equals(\"Tom\")),or(name:equals(\"Tom\"),age:equals(20)))";
             var expected = "where ((age = 20 and name = 'Tom') and (name = 'Tom' or age = 20))";
+
+            var actual = target.ToWhere(input);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void ToWhere_or_or_and_not_equal()
+        {
+            var target = new ConvertToSql();
+            var input = "or(or(not(age:equals(20)),not(name:equals(\"Tom\"))),and(not(name:equals(\"Tom\")),not(age:equals(20))))";
+            var expected = "where ((age <> 20 or name <> 'Tom') or (name <> 'Tom' and age <> 20))";
 
             var actual = target.ToWhere(input);
 
