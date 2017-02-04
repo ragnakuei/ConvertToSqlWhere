@@ -9,15 +9,15 @@ namespace ConvertToSqlLibrary
 {
     public class ConvertToSql
     {
+        private Dictionary<string, string> regexPatterns = new Dictionary<string, string>{
+                { @"not\((\w+):equals\(\""(.+?)\""\)\)" , "$1 <> '$2'" },
+                { @"not\((\w*):equals\((\d+?)\)\)"   , "$1 <> $2"   },
+                { @"(\w+):equals\((\d*?)\)"    , "$1 = $2"    },
+                { @"(\w+):equals\(\""(.+?)\""\)"    , "$1 = '$2'"  },
+         };
+
         public string ToWhere(string input)
         {
-            Dictionary<string,string> regexPatterns = new Dictionary<string, string>{
-                { @"(\w+):equals\((\d*?)\)"         , "$1 = $2"   },
-                { @"(\w+):equals\(\""(.+?)\""\)"    , "$1 = '$2'" },
-                { @"not\((\w*):equals\((.+?)\)\)"     , "$1 <> $2"  }
-                };
-            var result = "where ";
-
             foreach (var regexPattern in regexPatterns)
             {
                 var pattern = regexPattern.Key;
@@ -26,11 +26,11 @@ namespace ConvertToSqlLibrary
                 var match = Regex.Match(input, pattern);
                 if (match.Success)
                 {
-                    result = Regex.Replace(input, pattern, replace);
+                    input = Regex.Replace(input, pattern, replace);
                 }
             }
 
-            return "where "+result;
+            return "where "+ input;
         }
     }
 }
