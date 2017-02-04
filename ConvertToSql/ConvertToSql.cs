@@ -14,7 +14,7 @@ namespace ConvertToSqlLibrary
                 { @"not\((\w*):equals\((\d+?)\)\)"   , "$1 <> $2"   },
                 { @"(\w+):equals\((\d*?)\)"    , "$1 = $2"    },
                 { @"(\w+):equals\(\""(.+?)\""\)"    , "$1 = '$2'"  },
-                { @"^(and)\((.+?),(.+?)\)$","($2 $1 $3)" },
+                { @"^(and|or)\((.+?),(.+?)\)$","($2 $1 $3)" },
          };
 
         public string ToWhere(string input)
