@@ -53,6 +53,12 @@
     <Compile Include="ConvertToSqlWhereTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ConvertToSql\ConvertToSqlLibrary.csproj">
+      <Project>{a3d890c3-7a3a-41b9-8e68-f33207887545}</Project>
+      <Name>ConvertToSqlLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
