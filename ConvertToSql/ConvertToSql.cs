@@ -11,15 +11,23 @@ namespace ConvertToSqlLibrary
     {
         public string ToWhere(string input)
         {
-            string regexPattern = @"(.*?):equals\((\d*?)\)";
+            Dictionary<string,string> regexPatterns = new Dictionary<string, string>{
+                { @"(.*?):equals\((\d*?)\)"          , "$1 = $2"   },
+                { @"(.*?):equals\(\""(\d*?)\""\)"    , "$1 = '$2'" }};
             var result = "where ";
 
-            var match = Regex.Match(input, regexPattern);
-            if (match.Success)
+            foreach (var regexPattern in regexPatterns)
             {
-                var regexReplace = "$1 = $2";
-                result += Regex.Replace(match.Value, regexPattern, regexReplace);
+                var pattern = regexPattern.Key;
+                var replace = regexPattern.Value;
+
+                var match = Regex.Match(input, pattern);
+                if (match.Success)
+                {
+                    result += Regex.Replace(match.Value, pattern, replace);
+                }
             }
+
             return result;
         }
     }
