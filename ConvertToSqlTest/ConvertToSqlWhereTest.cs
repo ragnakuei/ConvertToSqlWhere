@@ -115,7 +115,53 @@ namespace ConvertToSqlTest
             Assert.AreEqual(expected, actual);
         }
 
+        [TestMethod]
+        public void ToWhere_and_not_equal_number_string()
+        {
+            var target = new ConvertToSql();
+            var input = "and(not(age:equals(20)),not(name:equals(\"Tom\")))";
+            var expected = "where (age <> 20 and name <> 'Tom')";
 
-        
+            var actual = target.ToWhere(input);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        //[TestMethod]
+        //public void ToWhere_and_not_equal_string_number()
+        //{
+        //    var target = new ConvertToSql();
+        //    var input = "and(name:equals(\"Tom\"),age:equals(20))";
+        //    var expected = "where (name <> 'Tom' and age <> 20)";
+
+        //    var actual = target.ToWhere(input);
+
+        //    Assert.AreEqual(expected, actual);
+        //}
+
+        //[TestMethod]
+        //public void ToWhere_or_not_equal_number_string()
+        //{
+        //    var target = new ConvertToSql();
+        //    var input = "or(age:equals(20),name:equals(\"Tom\"))";
+        //    var expected = "where (age <> 20 or name <> 'Tom')";
+
+        //    var actual = target.ToWhere(input);
+
+        //    Assert.AreEqual(expected, actual);
+        //}
+
+        //[TestMethod]
+        //public void ToWhere_or_not_equal_string_number()
+        //{
+        //    var target = new ConvertToSql();
+        //    var input = "or(name:equals(\"Tom\"),age:equals(20))";
+        //    var expected = "where (name <> 'Tom' or age <> 20)";
+
+        //    var actual = target.ToWhere(input);
+
+        //    Assert.AreEqual(expected, actual);
+        //}
+
     }
 }
