@@ -15,7 +15,6 @@ namespace ConvertToSqlLibrary
               new RegexStore { Pattern = @"(\w+):equals\(\""(.+?)\""\)"  , Replace = "$1 = '$2'" },
               new RegexStore { Pattern = @"(\w+):equals\((\d*?)\)"  , Replace = "$1 = $2" },
               new RegexStore { Pattern = @"(and|or)\((?!and|or)(.*?),(.*?)\)"  , Replace = "($2 $1 $3)" },
-              new RegexStore { Pattern = @"^(and|or)\((.+?),(.+?)\)$"  , Replace = "$2 $1 $3" },
          };
 
         public string ToWhere(string input)
